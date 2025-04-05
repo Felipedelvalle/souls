@@ -1,103 +1,238 @@
-/* Fade-in effect */
-#fade-overlay {
+/* Reset default margin, padding, and box-sizing */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #000;
+  margin: 0;
+  cursor: url('cursors/cursor.png'), auto;
+}
+
+
+
+
+#popup {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: white;
-  z-index: 10;
-  animation: fadeOut 1s forwards;
-}
-
-/* Fullscreen Centering */
-body, html {
-  margin: 0;
-  padding: 0;
-  background: black;
+  background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  width: 100vw;
-  overflow: hidden;
+  z-index: 100; /* Ensure the popup is on top */
+  max-width: 100%;
+  max-height: 100%;
+
 }
 
-/* 16:10 Canvas (Responsive) */
-#game-container {
-  aspect-ratio: 16 / 10;
-  width: 90vw; /* Scales within screen */
-  max-width: 1440px;
-  height: auto;
-  background: url("title.png") no-repeat center center;
-  background-size: cover;
-  position: relative;
-  overflow: hidden;
+#popup-image {
+  width: auto;
+  height: 100%; /* Adjust image size */
+  cursor: pointer; /* Make it clear the image is clickable */
+  cursor: url('cursors/cursor2.png') 5 5, auto;
+  max-width: 100%;
+  max-height: 100%;
 }
 
-/* Buttons */
-#buttons {
-  position: absolute;
-  left: 10%;
-  top: 40%;
+#canvas-container {
+  width: 100%;
+  height: 100%;
   display: flex;
-  flex-direction: column;
-  gap: 20px;
-  z-index: 2;
+  justify-content: center;
+  align-items: center;
+  visibility: hidden; /* Initially hide the canvas */
 }
 
-#buttons img {
-  width: 200px;
+canvas {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Ensure canvas content fits the screen */
+}
+
+/* Add a hidden class to control visibility */
+.hidden {
+  visibility: hidden;
+}
+
+body.fade-in {
+  opacity: 1 !important; /* Allow the fade-in effect */
+  transition: opacity 1s ease-in-out;
+}
+
+
+/* Style for the button container */
+#button-container {
+  position: absolute;
+  left: 25%; /* Position the button towards the left (25% of the canvas width) */
+  top: 35%; /* Move the button up a bit (reduce from 50% to 35%) */
+  transform: translateY(-50%); /* Adjust to exact center vertically */
+  z-index: 10;
+}
+
+/* Style for the button container */
+#button-container {
+  position: absolute;
+  left: 18%; /* Move the button slightly to the left (from 25% to 20%) */
+  top: 40%;  /* Position the button slightly up (unchanged) */
+  transform: translateY(-50%); /* Adjust to exact center vertically */
+  z-index: 10;
+}
+
+/* Style for the button image */
+#action-button {
+  width: 360px; /* Keep the button size the same */
+  height: auto;  /* Maintain aspect ratio */
   cursor: pointer;
-  transition: transform 0.2s;
+  transition: filter 0.1s ease-in-out; /* Smooth color inversion */
 }
 
-#buttons img:hover {
-  transform: scale(1.1);
+/* Hover effect: Invert colors */
+#action-button:hover {
+  filter: invert(1); /* Inverts colors on hover */
+  cursor: url('cursors/cursor2.png') 5 5, auto;
 }
 
-/* Instructions Popup */
-#instructions-popup {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: none;
-  z-index: 3;
+
+/* Fade-out div (covers the whole screen) */
+#fade-to-black {
+  position: fixed;  /* Ensures it's positioned above all other content */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: black; /* Black background */
+  opacity: 0;  /* Initially fully transparent */
+  pointer-events: none;  /* Prevent interaction when it's transparent */
+  z-index: 1000;  /* Ensure it's above other content */
 }
 
-#instructions-image {
-  width: 400px;
-}
+/* Style for the new buttons */
 
-#close-btn {
-  position: absolute;
-  top: 5px;
-  right: 15px;
+#how-button{
+  width: 360px;
+  height: auto;
   cursor: pointer;
-  font-size: 30px;
-  color: white;
-}
-
-/* Tumbleweed (Now Moves & Spins Properly) */
-.tumbleweed {
+  transition: filter 0.1s ease-in-out;
   position: absolute;
-  bottom: 10%;
-  width: 80px;
-  z-index: 1;
-  animation: tumble 5s linear forwards;
+  left: 18%; 
+  top: 53.2%;  
+
 }
 
-/* Tumbleweed Animation */
-@keyframes tumble {
-  0% { left: -10%; transform: rotate(0deg) translateY(0px); }
-  25% { transform: rotate(180deg) translateY(-10px); }
-  50% { transform: rotate(360deg) translateY(5px); }
-  75% { transform: rotate(540deg) translateY(-5px); }
-  100% { left: 110%; transform: rotate(720deg) translateY(0px); }
+
+#credits-button {
+  width: 240px;
+  height: auto;
+  cursor: pointer;
+  transition: filter 0.1s ease-in-out;
+  position: absolute;
+  left: 22%; 
+  top: 63.5%;  
+
 }
 
-@keyframes fadeOut {
-  from { opacity: 1; }
-  to { opacity: 0; display: none; }
+/* Hover effect: Invert colors */
+#how-button:hover, #credits-button:hover {
+  filter: invert(1);
+  cursor: url('cursors/cursor2.png') 5 5, auto;
 }
+
+/* Pop-up container */
+.popup{
+  position: fixed;
+  bottom: -100%; /* Initially off-screen */
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: bottom 0.5s ease-in-out; /* Slide-in/out effect */
+  z-index: 200;
+}
+
+.popup img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.popup.hidden {
+  bottom: -100%; /* Keep off-screen when hidden */
+}
+
+/* Close button inside pop-up */
+.close-button {
+  position: relative;
+  top: -36.5%;
+  right: 9%;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  width: 40px; /* Set width for the close button */
+  height: 40px; /* Set height for the close button */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  transition: color 0.3s ease;
+  cursor: url('cursors/cursor2.png') 5 5, auto;
+}
+
+.close-button::before,
+.close-button::after {
+  content: '';
+  position: absolute;
+  width: 6px; /* Thickness of the "X" lines */
+  height: 40px; /* Length of the "X" lines */
+  background-color: rgb(235, 0, 0); /* Red color for the "X" */
+  border-radius: 2px;
+}
+
+.close-button::before {
+  transform: rotate(45deg); /* Rotates the line to form the first diagonal of "X" */
+}
+
+.close-button::after {
+  transform: rotate(-45deg); /* Rotates the line to form the second diagonal of "X" */
+}
+
+.close-button:hover::before,
+.close-button:hover::after {
+  background-color: rgb(73, 255, 213); /* Lighter red on hover */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
