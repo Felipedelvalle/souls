@@ -1,0 +1,279 @@
+/* Body styling */
+body {
+  background-color: black;
+  color: #ffd900;
+  font-family: 'Press Start 2P', cursive; /* Pixelated font */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  overflow: hidden; /* Prevents scrolling */
+}
+
+/* Fade-in screen for loading */
+.fade-in {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 1;
+  animation: fadeIn 2s ease-in-out forwards;
+}
+
+#startPopup {
+  width: auto;
+  height: 100%; /* Adjust image size */
+  max-width: 100%;
+  max-height: 100%;
+}
+
+
+/* Game container with 16:10 aspect ratio */
+.game-container {
+  position: relative;
+  width: 100vw;
+  height: 56.25vw; /* 16:10 ratio based on the viewport width */
+  background-image: url('arena.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; /* Ensure elements don't overflow */
+}
+
+/* Timer bar at the top */
+.timer-bar {
+  width: 100%;
+  height: 10px;
+  background-color: #555555;
+  position: fixed;
+  top: 0;
+  z-index: 10;
+}
+
+.timer-progress {
+  width: 100%;
+  height: 100%;
+  background-color: #55ff00; /* Green */
+  transition: width 1s linear;
+}
+
+/* Countdown images */
+.countdown {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  gap: 10px;
+  z-index: 20;
+  pointer-events: none; /* Prevents interaction with countdown images */
+}
+
+.countdown-img {
+  width: 150px;
+  display: none;
+  pointer-events: none; /* Prevents interaction with countdown images */
+}
+
+/* Score display */
+#score {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 30px;
+  font-family: 'Press Start 2P', cursive;
+  z-index: 20;
+}
+
+/* Holes Grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 10px; /* Reduced gap for better spacing between holes */
+  justify-items: center;
+  align-items: center;
+  position: relative;
+  width: 60%; /* Adjust this value to fit the grid properly within the screen */
+  height: 50%;
+  margin-top: 15%; /* Move grid down the screen to position it better */
+}
+
+/* Holes */
+.hole {
+  width: 120px; /* Hole size */
+  height: 120px; /* Hole size */
+  background-image: url('hole.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  position: relative; /* This keeps holes positioned properly within the grid */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: visible; /* Prevents moles from overflowing the hole container */
+  ;
+  /* No margin-top needed anymore */
+}
+
+/* Moles */
+.mole {
+  position: absolute; /* Moles are positioned inside the hole */
+  bottom: -100%; /* Start below the hole (off-screen) */
+  left: 20%;
+  transform: translateX(-50%); /* Center the mole horizontally */
+  transform: translateY(-150%);
+  width: 100%; /* Mole size should match hole size */
+  height: 100%; /* Mole size should match hole size */
+  background-image: url('soulspawn.gif');
+  background-size: contain;
+  background-repeat: no-repeat;
+  display: none; /* Initially hidden */
+  animation: slideUpDown 1s ease-in-out forwards; /* Slide-up animation */
+  transform-origin: center center;
+}
+
+img {
+transform-origin: 50% 50%;
+}
+
+/* Keyframe animation for mole sliding */
+@keyframes slideUpDown {
+  0% {
+    bottom: -100%; /* Start off-screen below the hole */
+  }
+  50% {
+    bottom: -50%; /* Mole rises into the hole */
+  }
+  55% {
+    bottom: -50%; /* Mole stays in the hole for a moment */
+  }
+  100% {
+    bottom: -100%; /* Return mole off-screen */
+  }
+}
+
+.particle-effect {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  background: url('particles.png') no-repeat;
+  background-size: contain;
+  pointer-events: none;
+  animation: particleBurst 0.5s ease-out forwards;
+  z-index: 10;
+  transform-origin: 55% 20%;
+}
+
+@keyframes particleBurst {
+  0% {
+    opacity: 100;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 10;
+    transform: brightness(10000);
+    transform: scale(2);
+  }
+}
+
+
+
+/* Hidden elements */
+.hidden {
+  display: none;
+}
+
+/* Game Over Popup */
+#gameOverPopup {
+  background-image: url('ending.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  position: absolute;
+  top: 48%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 15;
+  padding-bottom: 20px; /* Add padding to the bottom */
+}
+
+#gameOverPopup h2 {
+  margin: 0px 0;
+  padding: 5px; /* Add padding around the image */
+  padding-bottom: 50px;
+}
+
+#gameOverPopup button {
+  background: transparent;
+  border: none;
+  cursor: url('cursors/cursor2.png') 5 5, auto;
+
+}
+
+#gameOverPopup img {
+  width: 150px;
+
+}
+
+/* Button styles for hover and click */
+button img {
+  transition: filter 0.1s ease-in-out; /* Smooth color inversion */
+  transform: invert(1); /* Invert colors on hover */
+}
+
+button:hover img {
+  filter: invert(1); /* Invert colors on hover */
+}
+
+button:active img {
+  transform: scale(1);
+}
+
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  from {
+      opacity: 0;
+  }
+  to {
+      opacity: 1;
+  }
+}
+
+/* Fade out effect */
+.fade-out {
+  transition: opacity 2s ease-out;
+  opacity: 0;
+  
+}
+
+/* Default cursor */
+body, #gameContent, .hole, .mole {
+  cursor: url('hammer.png') 16 93, auto; /* Default cursor when hovering */
+  size: 120%;
+}
+
+/* Cursor when clicking */
+body:active, #gameContent:active, .hole:active, .mole:active {
+  cursor: url('hammer2.png') 16 93, auto; /* Cursor when mouse is pressed */
+  size: 120%;
+}
+
+
+
+
+
+
